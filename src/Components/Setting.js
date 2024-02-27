@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import BASEURL from "../constant/baseurl.js";
-import LeftSideBar from './LeftSideBar';
+import LeftSideBar from "./LeftSideBar";
 import styles from "../Styles/Setting.module.css";
 import lockIcon from "../Assets/Icons/lock.png";
 import OpenEye from "../Assets/Icons/eye.png";
@@ -47,7 +47,7 @@ const Setting = () => {
       const token = localStorage.getItem("token");
       const response = await axios.post(
         `${BASEURL}/api/auth/update-user`,
-        { _id:userId, name: userData.name, oldPassword, newPassword },
+        { _id: userId, name: userData.name, oldPassword, newPassword },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -57,7 +57,7 @@ const Setting = () => {
       );
 
       if (response.status === 200 || response.status === 201) {
-        getSingleUserData()
+        getSingleUserData();
         setSuccessMessage("Your details have been updated successfully");
         setTimeout(() => {
           setSuccessMessage("");
@@ -76,7 +76,7 @@ const Setting = () => {
       return navigate("/login");
     }
     getSingleUserData();
-     // eslint-disable-next-line
+    // eslint-disable-next-line
   }, []);
 
   const [showDeleteBox, setShowDeleteBox] = useState(false);
@@ -87,7 +87,6 @@ const Setting = () => {
 
   return (
     <>
-
       <LeftSideBar logOutPop={logOutUser} />
 
       <div className={styles.mainDashboard}>
@@ -138,13 +137,13 @@ const Setting = () => {
                 <div className={styles.formField}>
                   <img src={lockIcon} alt="lock" />
                   <input
-                   type={`${showC_Pswd ? "text" : "password"}`}
+                    type={`${showC_Pswd ? "text" : "password"}`}
                     placeholder="New Password"
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
                   />
-                   <div className={styles.showPsdwdImg}>
-                   {showC_Pswd ? (
+                  <div className={styles.showPsdwdImg}>
+                    {showC_Pswd ? (
                       <img
                         src={CloseEye}
                         alt="eye"
@@ -164,18 +163,14 @@ const Setting = () => {
                 </button>
               </form>
               {successMessage && (
-                <div className={styles.successMessage}>
-                  {successMessage}
-                </div>
+                <div className={styles.successMessage}>{successMessage}</div>
               )}
             </div>
           </div>
         </div>
       </div>
 
-      {showDeleteBox && (
-        <LogoutPopup logOutPop={logOutUser} />
-      )}
+      {showDeleteBox && <LogoutPopup logOutPop={logOutUser} />}
     </>
   );
 };

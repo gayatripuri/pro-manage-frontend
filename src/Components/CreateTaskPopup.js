@@ -1,15 +1,15 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import styles from "../Styles/CreateTaskPopup.module.css";
 import BASEURL from "../constant/baseurl.js";
 import axios from "axios";
 
-const CreateTaskPopup = ({popUpTaskBox, runFuncTaskData}) => {
+const CreateTaskPopup = ({ popUpTaskBox, runFuncTaskData }) => {
   const [errData, setErrData] = useState(false);
   const [formData, setFormData] = useState({
-    title: '',
-    priority: 'high priority',
+    title: "",
+    priority: "high priority",
     checklist: [],
-    dueDate: ''
+    dueDate: "",
   });
 
   const handleInputChange = (e) => {
@@ -27,7 +27,7 @@ const CreateTaskPopup = ({popUpTaskBox, runFuncTaskData}) => {
     e.preventDefault();
     setFormData({
       ...formData,
-      checklist: [...formData.checklist, { item: '', status: false }]
+      checklist: [...formData.checklist, { item: "", status: false }],
     });
   };
 
@@ -37,37 +37,46 @@ const CreateTaskPopup = ({popUpTaskBox, runFuncTaskData}) => {
     setFormData({ ...formData, checklist: updatedChecklist });
   };
 
-    const handleSubmit= async(e) =>{
-      e.preventDefault();
-      const { title, checklist } = formData;
-      if (!title || !checklist.every(item => item.item.trim() !== '')) {
-        return setErrData(true);
-      } 
-      if(checklist.length===0){
-        return alert('Please add Task')
-      }
-      const token = localStorage.getItem("token");
-      try {
-        const response = await axios.post(`${BASEURL}/api/task/create`, formData, {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const { title, checklist } = formData;
+    if (!title || !checklist.every((item) => item.item.trim() !== "")) {
+      return setErrData(true);
+    }
+    if (checklist.length === 0) {
+      return alert("Please add Task");
+    }
+    const token = localStorage.getItem("token");
+    try {
+      const response = await axios.post(
+        `${BASEURL}/api/task/create`,
+        formData,
+        {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
-        });
-        console.log('3')
-        const data = response.data;
-        if (response.status === 200 || response.status === 201) {
-          setFormData({ title: '', priority: 'high priority', checklist: [ { item: '', status: false } ], dueDate: '' });
-          popUpTaskBox()
-          runFuncTaskData()
-        } else {
-          console.error("Error:", data.error);
         }
-      } catch (error) {
-        console.error("Error:", error.message);
-        console.log(formData)
+      );
+      console.log("3");
+      const data = response.data;
+      if (response.status === 200 || response.status === 201) {
+        setFormData({
+          title: "",
+          priority: "high priority",
+          checklist: [{ item: "", status: false }],
+          dueDate: "",
+        });
+        popUpTaskBox();
+        runFuncTaskData();
+      } else {
+        console.error("Error:", data.error);
+      }
+    } catch (error) {
+      console.error("Error:", error.message);
+      console.log(formData);
     }
-  }
+  };
 
   return (
     <div className={styles.mainPopup}>
@@ -78,14 +87,20 @@ const CreateTaskPopup = ({popUpTaskBox, runFuncTaskData}) => {
             <label>
               Title<sup>*</sup>
             </label>
-            <input type="text" placeholder="Enter Task Title" name="title" value={formData.title} onChange={handleInputChange} />
+            <input
+              type="text"
+              placeholder="Enter Task Title"
+              name="title"
+              value={formData.title}
+              onChange={handleInputChange}
+            />
             {errData && formData.title.length === 0 ? (
-                  <p className={styles.errField}>Please fill the field.</p>
-                ) : (
-                  ""
-                )}
+              <p className={styles.errField}>Please fill the field.</p>
+            ) : (
+              ""
+            )}
           </div>
-          
+
           <div className={styles.formSelectPriority}>
             <span>
               Select Priority<sup>*</sup>
@@ -96,7 +111,9 @@ const CreateTaskPopup = ({popUpTaskBox, runFuncTaskData}) => {
                 type="radio"
                 id="contactChoice1"
                 name="priority"
-                value="high priority" checked={formData.priority === 'high priority'} onChange={handleInputChange}
+                value="high priority"
+                checked={formData.priority === "high priority"}
+                onChange={handleInputChange}
               />
               <div className={`${styles.radioDots} ${styles.highRadio}`}></div>
               <label htmlFor="contactChoice1">High Priority</label>
@@ -107,7 +124,8 @@ const CreateTaskPopup = ({popUpTaskBox, runFuncTaskData}) => {
                 id="contactChoice2"
                 name="priority"
                 value="moderate priority"
-                checked={formData.priority === 'moderate priority'} onChange={handleInputChange}
+                checked={formData.priority === "moderate priority"}
+                onChange={handleInputChange}
               />
               <div className={`${styles.radioDots} ${styles.modeRadio}`}></div>
               <label htmlFor="contactChoice2">Moderate Priority</label>
@@ -118,7 +136,8 @@ const CreateTaskPopup = ({popUpTaskBox, runFuncTaskData}) => {
                 id="contactChoice3"
                 name="priority"
                 value="low priority"
-                checked={formData.priority === 'low priority'} onChange={handleInputChange}
+                checked={formData.priority === "low priority"}
+                onChange={handleInputChange}
               />
               <div className={`${styles.radioDots} ${styles.lowRadio}`}></div>
               <label htmlFor="contactChoice3">Low Priority</label>
@@ -133,31 +152,46 @@ const CreateTaskPopup = ({popUpTaskBox, runFuncTaskData}) => {
 
           <div className={styles.tasklisting}>
             <ul>
-            {formData.checklist.map((item, index) => (
-              <React.Fragment key={index}>
-              <li>
-                <input 
-                type="checkbox" 
-                checked={item.status} 
-                onChange={() => handleCheckboxChange(index)} /> 
-                <input type="text" 
-                  value={item.item} onChange={(e) => {
-                  const updatedChecklist = [...formData.checklist];
-                  updatedChecklist[index].item = e.target.value;
-                  setFormData({ ...formData, checklist: updatedChecklist });
-                }}
-                 />
-                
-                 {formData.checklist.length === 1 ? <i className="fa fa-trash" aria-hidden="true" style={{opacity:"0.5"}}></i> 
-                 :
-                 <i className="fa fa-trash" aria-hidden="true" onClick={() => handleRemoveItem(index)}></i>
-                 }
-              </li>
-                  {errData && item.item.length === 0 ? (
-                      <p className={styles.errField}>Please fill the field.</p>
+              {formData.checklist.map((item, index) => (
+                <React.Fragment key={index}>
+                  <li>
+                    <input
+                      type="checkbox"
+                      checked={item.status}
+                      onChange={() => handleCheckboxChange(index)}
+                    />
+                    <input
+                      type="text"
+                      value={item.item}
+                      onChange={(e) => {
+                        const updatedChecklist = [...formData.checklist];
+                        updatedChecklist[index].item = e.target.value;
+                        setFormData({
+                          ...formData,
+                          checklist: updatedChecklist,
+                        });
+                      }}
+                    />
+
+                    {formData.checklist.length === 1 ? (
+                      <i
+                        className="fa fa-trash"
+                        aria-hidden="true"
+                        style={{ opacity: "0.5" }}
+                      ></i>
                     ) : (
-                      ""
+                      <i
+                        className="fa fa-trash"
+                        aria-hidden="true"
+                        onClick={() => handleRemoveItem(index)}
+                      ></i>
                     )}
+                  </li>
+                  {errData && item.item.length === 0 ? (
+                    <p className={styles.errField}>Please fill the field.</p>
+                  ) : (
+                    ""
+                  )}
                 </React.Fragment>
               ))}
             </ul>
@@ -169,16 +203,24 @@ const CreateTaskPopup = ({popUpTaskBox, runFuncTaskData}) => {
           <div className={styles.formFootSec}>
             <div className={styles.formDuoDate}>
               <div className={styles.formateDate}>
-              <input
+                <input
                   type="date"
                   id="contactDate"
-                  name="dueDate" value={formData.dueDate} onChange={handleInputChange}
+                  name="dueDate"
+                  value={formData.dueDate}
+                  onChange={handleInputChange}
                 />
-                {formData.dueDate===''? <label htmlFor="contactDate">Select Duo Date</label> : '' }
+                {formData.dueDate === "" ? (
+                  <label htmlFor="contactDate">Select Duo Date</label>
+                ) : (
+                  ""
+                )}
               </div>
             </div>
             <div className={styles.formBtnSec}>
-              <button className={styles.addTaskBtn} onClick={popUpTaskBox}>Cancle</button>
+              <button className={styles.addTaskBtn} onClick={popUpTaskBox}>
+                Cancle
+              </button>
               <button className={`${styles.addTaskBtn} ${styles.saveBtn}`}>
                 Save
               </button>
