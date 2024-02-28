@@ -161,9 +161,11 @@
 }
 
 .popUpForm .tasklisting {
-  max-height: 250px;
+  height: 180px;
+  max-height: 200px;
   overflow: hidden auto;
   padding-top: 10px;
+  position: relative;
 }
 .popUpForm .tasklisting::-webkit-scrollbar-thumb {
   background: #9cb7c5;
@@ -189,10 +191,10 @@
   } */
 
 .formateDate {
-  border: 1px solid #ddd;
+  /* border: 1px solid #ddd; */
   border-radius: 10px;
   position: relative;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 .formateDate label {
   position: absolute;
@@ -223,3 +225,4 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   width: auto;
   opacity: 0;
 }
+

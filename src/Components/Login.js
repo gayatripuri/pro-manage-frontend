@@ -85,19 +85,7 @@ const Login = () => {
     }
   };
 
-  // function isTokenExpired() {
-  //   const token = localStorage.getItem("token");
-  //   if (!token) return true;
-  //   const { expiration } = JSON.parse(token);
-  //   return expiration < Date.now();
-  // }
-
-  // if (!isTokenExpired()) {
-  //   // eslint-disable-next-line
-  //   const { value } = JSON.parse(localStorage.getItem("token"));
-  // } else {
-  //   localStorage.removeItem("token");
-  // }
+  
 
   const handleRegisterClick = () => {
     navigate("/");
@@ -129,7 +117,7 @@ const Login = () => {
                   />
                 </div>
                 {errData && formData.email.length === 0 ? (
-                  <p className={styles.errField}>Please fill the field.</p>
+                  <p className={styles.errField}>Please Enter the Email</p>
                 ) : (
                   ""
                 )}
@@ -165,7 +153,7 @@ const Login = () => {
                   </div>
                 </div>
                 {errData && formData.password.length === 0 ? (
-                  <p className={styles.errField}>Please fill the field.</p>
+                  <p className={styles.errField}>Please Enter the Password</p>
                 ) : (
                   ""
                 )}

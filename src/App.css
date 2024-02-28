@@ -52,3 +52,16 @@ img.loadingGif.compoGif {
   text-align: center;
   display: block;
 }
+.react-datepicker-wrapper input {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  outline: none;
+  padding: 10px;
+  width: 70%;
+  text-align: center;
+}
+.react-datepicker-wrapper input::placeholder {
+  color: #999;
+  font-weight: 600;
+  /* padding-left: 10px; */
+}

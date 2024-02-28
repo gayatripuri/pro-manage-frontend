@@ -4,7 +4,7 @@ import BASEURL from "../constant/baseurl.js";
 import DeletePopup from "./DeletePopup.js";
 import EditTaskForm from "./EditTaskForm.js";
 import axios from "axios";
-
+import { useEffect } from "react";
 const TodoItem = ({
   todoTaskData,
   popUpTaskBox,
@@ -18,7 +18,7 @@ const TodoItem = ({
   const [editTaskItemData, setEditTaskItemData] = useState([]);
   const [showEditTaskPopup, setShowEditTaskPopup] = useState(false);
   const [deleteId, setDeleteId] = useState("");
-
+  const [checkedCount, setCheckedCount] = useState([]);
   const titleItemsBox = (id) => {
     if (id === showItemBoxIndex) {
       setShowItemBoxIndex(-1);
@@ -170,6 +170,16 @@ const TodoItem = ({
     setShowItemBoxIndex(-1);
   };
 
+  useEffect(() => {
+    const trueStatusCounts = todoTaskData.map((task) => {
+      const trueCount = task.checklist.filter(
+        (item) => item.status === true
+      ).length;
+      return { title: task.title, trueCount };
+    });
+    setCheckedCount(trueStatusCounts);
+  }, [todoTaskData]);
+
   const checkInput = () => {};
   return (
     <>
@@ -219,7 +229,10 @@ const TodoItem = ({
             <h3>{item.title}</h3>
 
             <div className={styles.itemBoxTitle}>
-              <p>Checklist (1/{item.checklist.length})</p>
+              <p>
+                Checklist ({checkedCount[index]?.trueCount || 0}/
+                {item.checklist.length})
+              </p>
 
               <div
                 className={styles.itemBoxPrityIcons}

@@ -1,10 +1,12 @@
+import "react-datepicker/dist/react-datepicker.css";
 import React, { useState, useEffect } from "react";
 import styles from "../Styles/CreateTaskPopup.module.css";
 import BASEURL from "../constant/baseurl.js";
 import axios from "axios";
+import DatePicker from "react-datepicker";
 
 const EditTaskForm = ({ taskData, closeEditForm }) => {
-  // console.log(closeEditForm)
+  console.log(taskData, "taskData");
   const [errData, setErrData] = useState(false);
   const [formData, setFormData] = useState({
     _id: "",
@@ -13,7 +15,7 @@ const EditTaskForm = ({ taskData, closeEditForm }) => {
     checklist: [{ item: "", status: false }],
     dueDate: "",
   });
-
+  const [checkedCount, setCheckedCount] = useState(0);
   useEffect(() => {
     setFormData({
       _id: taskData._id,
@@ -22,6 +24,11 @@ const EditTaskForm = ({ taskData, closeEditForm }) => {
       checklist: taskData.checklist || [{ item: "", status: false }],
       dueDate: taskData.dueDate || "",
     });
+    const newCheckedCount = taskData.checklist.filter(
+      (item) => item.status
+    ).length;
+    setCheckedCount(newCheckedCount);
+    // console.log("taskdata",taskData);
   }, [taskData]);
 
   const handleInputChange = (e) => {
@@ -33,6 +40,12 @@ const EditTaskForm = ({ taskData, closeEditForm }) => {
     const updatedChecklist = [...formData.checklist];
     updatedChecklist[index].status = !updatedChecklist[index].status;
     setFormData((prevState) => ({ ...prevState, checklist: updatedChecklist }));
+
+    // Update checked count
+    const newCheckedCount = updatedChecklist.filter(
+      (item) => item.status
+    ).length;
+    setCheckedCount(newCheckedCount);
   };
 
   const handleAddItem = (e) => {
@@ -147,7 +160,7 @@ const EditTaskForm = ({ taskData, closeEditForm }) => {
 
           <div className={styles.itemBoxTitle}>
             <p>
-              Checklist (1/{formData.checklist.length})<sup>*</sup>
+              Checklist ({checkedCount}/{formData.checklist.length})<sup>*</sup>
             </p>
           </div>
 
@@ -204,12 +217,22 @@ const EditTaskForm = ({ taskData, closeEditForm }) => {
           <div className={styles.formFootSec}>
             <div className={styles.formDuoDate}>
               <div className={styles.formateDate}>
-                <input
+                {/* <input
                   type="date"
                   id="contactDate"
                   name="dueDate"
                   value={formData.dueDate}
                   onChange={handleInputChange}
+                /> */}
+                <DatePicker
+                  // open={true}
+                  // id="contactDate"
+                  // name="dueDate"
+
+                  selected={formData.dueDate}
+                  placeholderText="Select Due Date"
+                  onChange={handleInputChange}
+                  dateFormat="dd/MM/yyyy"
                 />
                 {/* {formData.dueDate===''? <label htmlFor="contactDate">Select Duo Date</label> : '' } */}
               </div>

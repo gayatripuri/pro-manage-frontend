@@ -97,19 +97,7 @@ const Register = () => {
     }
   };
 
-  // function isTokenExpired() {
-  //   const token = localStorage.getItem("token");
-  //   if (!token) return true;
-  //   const { expiration } = JSON.parse(token);
-  //   return expiration < Date.now();
-  // }
-
-  // if (!isTokenExpired()) {
-  //   // eslint-disable-next-line
-  //   const { value } = JSON.parse(localStorage.getItem("token"));
-  // } else {
-  //   localStorage.removeItem("token");
-  // }
+  
 
   const handleLoginClick = () => {
     navigate("/login");
@@ -141,7 +129,7 @@ const Register = () => {
                   />
                 </div>
                 {errData && formData.name.length === 0 ? (
-                  <p className={styles.errField}>Please fill the field.</p>
+                  <p className={styles.errField}>Please Enter the Name</p>
                 ) : (
                   ""
                 )}
@@ -157,7 +145,7 @@ const Register = () => {
                   />
                 </div>
                 {errData && formData.email.length === 0 ? (
-                  <p className={styles.errField}>Please fill the field.</p>
+                  <p className={styles.errField}>Please Enter the Email</p>
                 ) : (
                   ""
                 )}
@@ -193,7 +181,7 @@ const Register = () => {
                   </div>
                 </div>
                 {errData && formData.password.length === 0 ? (
-                  <p className={styles.errField}>Please fill the field.</p>
+                  <p className={styles.errField}>Please Enter the Password</p>
                 ) : (
                   ""
                 )}
@@ -224,7 +212,7 @@ const Register = () => {
                   </div>
                 </div>
                 {errData && formData.confirmPassword.length === 0 ? (
-                  <p className={styles.errField}>Please fill the field.</p>
+                  <p className={styles.errField}>Please Re-enter the Password</p>
                 ) : (
                   ""
                 )}

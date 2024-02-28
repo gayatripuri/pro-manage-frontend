@@ -4,6 +4,7 @@ import BASEURL from "../constant/baseurl.js";
 import DeletePopup from "./DeletePopup.js";
 import EditTaskForm from "./EditTaskForm.js";
 import axios from "axios";
+import { useEffect } from "react";
 
 const Backlogs = ({
   backlogTaskData,
@@ -11,13 +12,14 @@ const Backlogs = ({
   checkFunc,
   checkListCurID,
 }) => {
-  // console.log(backlogTaskData)
+  console.log(backlogTaskData);
   const [showItemBoxIndex, setShowItemBoxIndex] = useState(-1);
   const [showCopyLink, setShowCopyLink] = useState(false);
   const [showDeleteBox, setShowDeleteBox] = useState(false);
   const [editTaskItemData, setEditTaskItemData] = useState([]);
   const [showEditTaskPopup, setShowEditTaskPopup] = useState(false);
   const [deleteId, setDeleteId] = useState("");
+  const [checkedCount, setCheckedCount] = useState([]);
 
   const titleItemsBox = (id) => {
     if (id === showItemBoxIndex) {
@@ -170,6 +172,18 @@ const Backlogs = ({
     setShowItemBoxIndex(-1);
   };
 
+  useEffect(() => {
+    const trueStatusCounts = backlogTaskData.map((task) => {
+      const trueCount = task.checklist.filter(
+        (item) => item.status === true
+      ).length;
+      return { title: task.title, trueCount };
+    });
+    setCheckedCount(trueStatusCounts);
+  }, [backlogTaskData]);
+
+  // console.log(checkedCount, 'Cur:checkedCount');
+
   const checkInput = () => {};
   return (
     <>
@@ -188,6 +202,7 @@ const Backlogs = ({
           default:
             priorityStyle = {};
         }
+
         return (
           <div className={styles.itemMainBox} key={index}>
             <div className={styles.itemBoxPrity}>
@@ -219,7 +234,10 @@ const Backlogs = ({
             <h3>{item.title}</h3>
 
             <div className={styles.itemBoxTitle}>
-              <p>Checklist (1/{item.checklist.length})</p>
+              <p>
+                Checklist ({checkedCount[index]?.trueCount || 0}/
+                {item.checklist.length})
+              </p>
 
               <div
                 className={styles.itemBoxPrityIcons}

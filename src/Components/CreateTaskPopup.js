@@ -1,7 +1,10 @@
+import "react-datepicker/dist/react-datepicker.css";
 import React, { useState } from "react";
+
 import styles from "../Styles/CreateTaskPopup.module.css";
 import BASEURL from "../constant/baseurl.js";
 import axios from "axios";
+import DatePicker from "react-datepicker";
 
 const CreateTaskPopup = ({ popUpTaskBox, runFuncTaskData }) => {
   const [errData, setErrData] = useState(false);
@@ -11,6 +14,7 @@ const CreateTaskPopup = ({ popUpTaskBox, runFuncTaskData }) => {
     checklist: [],
     dueDate: "",
   });
+  const [checkedCount, setCheckedCount] = useState(0);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -21,6 +25,12 @@ const CreateTaskPopup = ({ popUpTaskBox, runFuncTaskData }) => {
     const updatedChecklist = [...formData.checklist];
     updatedChecklist[index].status = !updatedChecklist[index].status;
     setFormData({ ...formData, checklist: updatedChecklist });
+
+    // Update checked count
+    const newCheckedCount = updatedChecklist.filter(
+      (item) => item.status
+    ).length;
+    setCheckedCount(newCheckedCount);
   };
 
   const handleAddItem = (e) => {
@@ -146,7 +156,7 @@ const CreateTaskPopup = ({ popUpTaskBox, runFuncTaskData }) => {
 
           <div className={styles.itemBoxTitle}>
             <p>
-              Checklist (1/{formData.checklist.length})<sup>*</sup>
+              Checklist ({checkedCount}/{formData.checklist.length})<sup>*</sup>
             </p>
           </div>
 
@@ -195,26 +205,41 @@ const CreateTaskPopup = ({ popUpTaskBox, runFuncTaskData }) => {
                 </React.Fragment>
               ))}
             </ul>
-            <button className={styles.addItemTask} onClick={handleAddItem}>
-              <i className="fa fa-plus" aria-hidden="true"></i> Add New
-            </button>
           </div>
+          <button className={styles.addItemTask} onClick={handleAddItem}>
+            <i className="fa fa-plus" aria-hidden="true"></i> Add New
+          </button>
 
           <div className={styles.formFootSec}>
             <div className={styles.formDuoDate}>
-              <div className={styles.formateDate}>
-                <input
+              <div>
+                {/* <input
                   type="date"
                   id="contactDate"
                   name="dueDate"
                   value={formData.dueDate}
                   onChange={handleInputChange}
+                 
+
+                  
+                /> */}
+
+                <DatePicker
+                  // open={true}
+                  // id="contactDate"
+                  // name="dueDate"
+                  placeholderText="Select Due Date"
+                  selected={formData.dueDate}
+                  onChange={(date) =>
+                    setFormData({ ...formData, dueDate: date })
+                  }
+                  dateFormat="dd/MM/yyyy"
                 />
-                {formData.dueDate === "" ? (
-                  <label htmlFor="contactDate">Select Duo Date</label>
+                {/* {formData.dueDate === "" ? (
+                  <label htmlFor="contactDate">Select Due Date</label>
                 ) : (
                   ""
-                )}
+                )} */}
               </div>
             </div>
             <div className={styles.formBtnSec}>
