@@ -32,8 +32,13 @@ const EditTaskForm = ({ taskData, closeEditForm }) => {
   }, [taskData]);
 
   const handleInputChange = (e) => {
+    console.log(e);
     const { name, value } = e.target;
     setFormData((prevState) => ({ ...prevState, [name]: value }));
+  };
+
+  const handleDateInputChange = (e) => {
+    setFormData((prevState) => ({ ...prevState, dueDate: e }));
   };
 
   const handleCheckboxChange = (index) => {
@@ -42,9 +47,7 @@ const EditTaskForm = ({ taskData, closeEditForm }) => {
     setFormData((prevState) => ({ ...prevState, checklist: updatedChecklist }));
 
     // Update checked count
-    const newCheckedCount = updatedChecklist.filter(
-      (item) => item.status
-    ).length;
+    const newCheckedCount = updatedChecklist.filter((item) => item.status).length;
     setCheckedCount(newCheckedCount);
   };
 
@@ -231,7 +234,7 @@ const EditTaskForm = ({ taskData, closeEditForm }) => {
 
                   selected={formData.dueDate}
                   placeholderText="Select Due Date"
-                  onChange={handleInputChange}
+                  onChange={handleDateInputChange}
                   dateFormat="dd/MM/yyyy"
                 />
                 {/* {formData.dueDate===''? <label htmlFor="contactDate">Select Duo Date</label> : '' } */}
