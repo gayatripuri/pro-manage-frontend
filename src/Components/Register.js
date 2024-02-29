@@ -63,6 +63,12 @@ const Register = () => {
     }
 
 
+    if (password.length < 8) {
+      return alert("Your password is too weak. It should be at least 8 characters long.");
+      
+      
+  }
+
 
     try {
       const response = await axios.post(
