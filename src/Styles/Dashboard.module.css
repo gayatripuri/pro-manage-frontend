@@ -456,3 +456,16 @@
 .fullwidth {
   width: 130%;
 }
+
+@media only screen and (min-device-width: 1280px) and (max-device-width: 1340px) and (-webkit-min-device-pixel-ratio: 2) {
+  .rightPageSec {
+    background: #fff;
+    margin-left: 20%;
+    width: 80%;
+}
+.chooseTaskStatus span {
+ 
+  font-size: 6px;
+  
+}
+}

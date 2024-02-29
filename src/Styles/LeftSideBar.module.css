@@ -80,3 +80,21 @@
   width: 18px;
   margin-right: 10px;
 }
+
+
+@media only screen and (min-device-width: 1280px) and (max-device-width: 1340px) and (-webkit-min-device-pixel-ratio: 2) {
+ 
+.leftSideBar {
+  background: #fff;
+  border-right: 1px solid #ddd;
+  display: inline-block;
+  height: 100%;
+  position: fixed;
+  width: 20%;
+}
+.sideBarTitle {
+  
+   justify-content: flex-start; 
+ 
+}
+}

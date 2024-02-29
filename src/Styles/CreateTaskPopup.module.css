@@ -226,3 +226,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   opacity: 0;
 }
 
+@media only screen and (min-device-width: 1280px) and (max-device-width: 1340px) and (-webkit-min-device-pixel-ratio: 2) {
+  .mainPopup .popUpForm{
+   
+    width: 45%;
+    
+  }
+}
