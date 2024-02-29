@@ -63,6 +63,7 @@ const Register = () => {
     }
 
     
+
     try {
       const response = await axios.post(
         `${BASEURL}/api/auth/register`,
