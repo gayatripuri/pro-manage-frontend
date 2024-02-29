@@ -62,6 +62,7 @@ const Register = () => {
       return alert("Passwords do not match");
     }
 
+    
     try {
       const response = await axios.post(
         `${BASEURL}/api/auth/register`,
