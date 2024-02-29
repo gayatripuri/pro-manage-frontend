@@ -62,7 +62,7 @@ const Register = () => {
       return alert("Passwords do not match");
     }
 
-    
+
 
     try {
       const response = await axios.post(
@@ -84,18 +84,10 @@ const Register = () => {
         setFormData({ name: "", email: "", password: "", confirmPassword: "" });
         setEmailError("");
         navigate("/dashboard");
-      } else {
-        console.error("Error:", data.error);
       }
     } catch (error) {
-      console.error("Error:", error.message);
-      if (error.response && error.response.status === 401) {
-        alert("Invalid Details");
-      } else if (error.response && error.response.status === 404) {
-        alert("Internal Server Error");
-      } else {
-        alert("An error occurred. Please try again later.");
-      }
+      console.error("Error:", error);
+alert(error.response.data.error);
     }
   };
 
